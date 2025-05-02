@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votação Paredão BBB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Paredão BBB</h1>
+            <img src="assets/robo.png" alt="Seufifi" class="participant-photo">
+            <p>Escolha quem você quer eliminar desta vez!</p>
+        </header>
+        
+        <main class="voting-container">
+            <div class="participants">
+                <div class="participant" id="minidummies">
+                    <div class="photo-frame">
+                        <img src="assets/minidummies.png" alt="Minidummies" class="participant-photo">
+                    </div>
+                    <h2>Mini Dummies</h2>
+                    <button class="vote-btn" data-id="1">Votar para Eliminar</button>
+                </div>
+                
+                <div class="vs-circle">
+                    <span>VS</span>
+                </div>
+                
+                <div class="participant" id="seufifi">
+                    <div class="photo-frame">
+                        <img src="assets/seufifi.png" alt="Seufifi" class="participant-photo">
+                    </div>
+                    <h2>Seu Fifi</h2>
+                    <button class="vote-btn" data-id="2">Votar para Eliminar</button>
+                </div>
+            </div>
+        </main>
+        
+        <div class="real-time-results">
+            <h3>Resultados em Tempo Real</h3>
+            <div class="results-bar">
+                <div class="result minidummies-result" style="width: 50%;">
+                    <span>50%</span>
+                </div>
+                <div class="result seufifi-result" style="width: 50%;">
+                    <span>50%</span>
+                </div>
+            </div>
+            <div class="total-votes">
+                Total de votos: <span id="totalVotes">0</span>
+            </div>
+            <button id="seeFullResults">Ver resultados completos</button>
+        </div>
+    </div>
+    
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Voto Registrado!</h2>
+            <p>Seu voto foi computado com sucesso.</p>
+            <div class="modal-results">
+                <h3>Panorama Atual:</h3>
+                <div id="modalResultsBar" class="results-bar">
+                    <div class="result participant1-result" style="width: 50%;">
+                        <span>50%</span>
+                    </div>
+                    <div class="result participant2-result" style="width: 50%;">
+                        <span>50%</span>
+                    </div>
+                </div>
+            </div>
+            <button id="voteAgain">Votar Novamente</button>
+        </div>
+    </div>
+    
+    <script src="js/script.js"></script>
+</body>
+</html>

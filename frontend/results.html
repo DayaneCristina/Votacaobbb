@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultados - Paredão BBB</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Resultados do Paredão</h1>
+            <img src="assets/robo.png" alt="Seufifi" class="participant-photo">
+            <p>Confira como está a votação até o momento</p>
+        </header>
+        
+        <main class="results-page">
+            <div class="results-summary">
+                <div class="summary-card minidummies">
+                    <h2>Mini Dummies</h2>
+                    <div class="vote-count" id="minidummies">0</div>
+                    <div class="vote-percent" id="minidummies">0%</div>
+                </div>
+                
+                <div class="summary-card total-summary">
+                    <h2>Total de Votos</h2>
+                    <div class="vote-count" id="totalVotesResults">0</div>
+                </div>
+                
+                <div class="summary-card seufifi">
+                    <h2>Seu Fifi</h2>
+                    <div class="vote-count" id="seufifi">0</div>
+                    <div class="vote-percent" id="seufifi">0%</div>
+                </div>
+            </div>
+            
+            <div class="results-chart">
+                <canvas id="votesChart"></canvas>
+            </div>
+            
+            <div class="hourly-results">
+                <h2>Votos por Hora</h2>
+                <canvas id="hourlyChart"></canvas>
+            </div>
+        </main>
+        
+        <div class="back-to-vote">
+            <a href="index.html" class="back-btn">Voltar para votação</a>
+        </div>
+    </div>
+    
+    <script src="js/results.js"></script>
+</body>
+</html>
