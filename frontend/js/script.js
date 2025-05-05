@@ -2,7 +2,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // Elementos da página
     const voteButtons = document.querySelectorAll('.vote-btn');
     const confirmationModal = document.getElementById('confirmationModal');
+    const captchaModal = document.getElementById('captchaModal');
     const closeModal = document.querySelector('.close-modal');
+    const closeCaptchaModal = document.getElementById('closeCaptchaModal');
+    const submitVoteBtn = document.getElementById('submitVote');
     const voteAgainBtn = document.getElementById('voteAgain');
     const seeFullResultsBtn = document.getElementById('seeFullResults');
     const totalVotesElement = document.getElementById('totalVotes');
@@ -16,6 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
         participant2: 0
     };
     let totalVotes = 0;
+    let selectedParticipantId = null;
     
     // Simular dados iniciais (será substituído pela API)
     function initializeVotes() {
@@ -50,12 +54,39 @@ document.addEventListener('DOMContentLoaded', function() {
         totalVotesElement.textContent = totalVotes;
     }
     
+    // Verificar resposta do CAPTCHA
+    function verifyCaptcha() {
+        const captchaResponse = grecaptcha.getResponse();
+        return captchaResponse.length > 0;
+    }
+    
     // Enviar voto para a API
-    async function sendVote(participantId) {
+    async function sendVote(participantId, captchaToken) {
         try {
-            // Simular chamada à API
+            // Na implementação real, enviar captchaToken junto com o voto
+            console.log(`Voto enviado para participante ${participantId} com token CAPTCHA`);
+            
+            // Simular chamada à API com o token do CAPTCHA
             // Na implementação real, substituir por fetch()
-            console.log(`Voto enviado para participante ${participantId}`);
+            // Exemplo:
+            /*
+            const response = await fetch('sua-api/votar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    participantId: participantId,
+                    captchaToken: captchaToken
+                }),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Falha ao enviar voto');
+            }
+            
+            const data = await response.json();
+            */
             
             // Simular atraso de rede
             await new Promise(resolve => setTimeout(resolve, 300));
@@ -84,43 +115,71 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Manipuladores de eventos
     voteButtons.forEach(button => {
-        button.addEventListener('click', async function() {
-            const participantId = this.getAttribute('data-id');
+        button.addEventListener('click', function() {
+            selectedParticipantId = this.getAttribute('data-id');
             
-            // Desativar botões durante o processamento
-            voteButtons.forEach(btn => btn.disabled = true);
+            // Mostrar modal do CAPTCHA
+            captchaModal.style.display = 'flex';
             
-            // Enviar voto
-            const success = await sendVote(participantId);
-            
-            // Reativar botões
-            voteButtons.forEach(btn => btn.disabled = false);
-            
-            if (success) {
-                // Mostrar modal de confirmação
-                confirmationModal.style.display = 'flex';
-                
-                // Atualizar resultados no modal
-                const percent1 = Math.round((votes.participant1 / totalVotes) * 100);
-                const percent2 = 100 - percent1;
-                
-                modalResultsBar.innerHTML = `
-                    <div class="result participant1-result" style="width: ${percent1}%;">
-                        <span>${percent1}%</span>
-                    </div>
-                    <div class="result participant2-result" style="width: ${percent2}%;">
-                        <span>${percent2}%</span>
-                    </div>
-                `;
-            } else {
-                alert('Ocorreu um erro ao processar seu voto. Por favor, tente novamente.');
+            // Resetar o CAPTCHA caso já tenha sido usado antes
+            if (typeof grecaptcha !== 'undefined') {
+                grecaptcha.reset();
             }
         });
     });
     
-    // Fechar modal
+    // Evento de envio após CAPTCHA
+    submitVoteBtn.addEventListener('click', async function() {
+        if (!verifyCaptcha()) {
+            alert('Por favor, complete o CAPTCHA para votar.');
+            return;
+        }
+        
+        // Obter token do CAPTCHA
+        const captchaToken = grecaptcha.getResponse();
+        
+        // Desativar botão durante o processamento
+        submitVoteBtn.disabled = true;
+        submitVoteBtn.textContent = 'Processando...';
+        
+        // Enviar voto com verificação CAPTCHA
+        const success = await sendVote(selectedParticipantId, captchaToken);
+        
+        // Reativar botão
+        submitVoteBtn.disabled = false;
+        submitVoteBtn.textContent = 'Confirmar Voto';
+        
+        // Fechar modal do CAPTCHA
+        captchaModal.style.display = 'none';
+        
+        if (success) {
+            // Mostrar modal de confirmação
+            confirmationModal.style.display = 'flex';
+            
+            // Atualizar resultados no modal
+            const percent1 = Math.round((votes.participant1 / totalVotes) * 100);
+            const percent2 = 100 - percent1;
+            
+            modalResultsBar.innerHTML = `
+                <div class="result participant1-result" style="width: ${percent1}%;">
+                    <span>${percent1}%</span>
+                </div>
+                <div class="result participant2-result" style="width: ${percent2}%;">
+                    <span>${percent2}%</span>
+                </div>
+            `;
+        } else {
+            alert('Ocorreu um erro ao processar seu voto. Por favor, tente novamente.');
+        }
+    });
+    
+    // Fechar modais
     closeModal.addEventListener('click', function() {
         confirmationModal.style.display = 'none';
+    });
+    
+    closeCaptchaModal.addEventListener('click', function() {
+        captchaModal.style.display = 'none';
     });
     
     voteAgainBtn.addEventListener('click', function() {
@@ -131,6 +190,11 @@ document.addEventListener('DOMContentLoaded', function() {
     seeFullResultsBtn.addEventListener('click', function() {
         window.location.href = 'results.html';
     });
+    
+    // Callback para quando o CAPTCHA é carregado (pode ser chamado pelo Google reCAPTCHA)
+    window.onCaptchaLoad = function() {
+        console.log('CAPTCHA carregado com sucesso');
+    };
     
     // Simular atualização em tempo real
     function simulateRealTimeUpdates() {
@@ -149,10 +213,4 @@ document.addEventListener('DOMContentLoaded', function() {
     // Inicializar
     initializeVotes();
     simulateRealTimeUpdates();
-    
-    // Simular conexão com a API para obter dados iniciais
-    setTimeout(() => {
-        // Aqui seria a chamada real à API
-        console.log('Obtendo dados iniciais da API...');
-    }, 1000);
 });

@@ -6,14 +6,16 @@
     <title>Votação Paredão BBB</title>
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <div class="g-recaptcha" data-sitekey= "6LfV3S0rAAAAAOHOyMWW5q0cpXK7FJnW0bI5YBuU" ></div>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 <body>
+    <header>
+        <h1>Paredão BBB</h1>
+        <img src="assets/robo.png" alt="Seufifi" class="participant-photo">
+        <p>Escolha quem você quer eliminar desta vez!</p>
+    </header>
     <div class="container">
-        <header>
-            <h1>Paredão BBB</h1>
-            <img src="assets/robo.png" alt="Seufifi" class="participant-photo">
-            <p>Escolha quem você quer eliminar desta vez!</p>
-        </header>
         
         <main class="voting-container">
             <div class="participants">
@@ -42,10 +44,10 @@
         <div class="real-time-results">
             <h3>Resultados em Tempo Real</h3>
             <div class="results-bar">
-                <div class="result minidummies-result" style="width: 50%;">
+                <div class="result participant1-result" style="width: 50%;">
                     <span>50%</span>
                 </div>
-                <div class="result seufifi-result" style="width: 50%;">
+                <div class="result participant2-result" style="width: 50%;">
                     <span>50%</span>
                 </div>
             </div>
@@ -73,6 +75,19 @@
                 </div>
             </div>
             <button id="voteAgain">Votar Novamente</button>
+        </div>
+    </div>
+    
+    <!-- Modal do CAPTCHA -->
+    <div class="captcha-modal" id="captchaModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeCaptchaModal">&times;</span>
+            <h2>Verificação de Segurança</h2>
+            <p>Para confirmar seu voto, por favor complete a verificação abaixo:</p>
+            <div class="captcha-container">
+                <div class="g-recaptcha" data-sitekey="6LfV3S0rAAAAAOHOyMWW5q0cpXK7FJnW0bI5YBuU"></div>
+            </div>
+            <button id="submitVote" class="vote-btn">Confirmar Voto</button>
         </div>
     </div>
     

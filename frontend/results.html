@@ -3,20 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Resultados da votação do Paredão BBB em tempo real">
     <title>Resultados - Paredão BBB</title>
     <link rel="stylesheet" href="css/style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="assets/favicon.ico" type="image/x-icon">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Resultados do Paredão</h1>
-            <img src="assets/robo.png" alt="Seufifi" class="participant-photo">
-            <p>Confira como está a votação até o momento</p>
-        </header>
-        
-        <main class="results-page">
+    <!-- Skip link para acessibilidade -->
+    <a href="#main-content" class="skip-link">Pular para o conteúdo</a>
+
+    <header>
+        <h1>Resultado do Paredão</h1>
+        <img src="assets/robo.png" alt="Logo BBB" class="participant-photo">
+        <p>Confira como está a votação até o momento</p>
+    </header>
+    <div class="container">    
+        <main id="main-content" class="results-page">
             <div class="results-summary">
                 <div class="summary-card minidummies">
                     <h2>Mini Dummies</h2>
@@ -27,6 +31,7 @@
                 <div class="summary-card total-summary">
                     <h2>Total de Votos</h2>
                     <div class="vote-count" id="totalVotesResults">0</div>
+                    <div class="updated-time">Última atualização: <span id="lastUpdate">Agora</span></div>
                 </div>
                 
                 <div class="summary-card seufifi">
@@ -36,13 +41,34 @@
                 </div>
             </div>
             
-            <div class="results-chart">
-                <canvas id="votesChart"></canvas>
+            <div class="results-chart" aria-label="Gráfico de pizza mostrando a distribuição dos votos">
+                <h2>Distribuição de Votos</h2>
+                <div class="chart-container" style="position: relative; height:300px; margin-top: 20px;">
+                    <canvas id="votesChart"></canvas>
+                </div>
             </div>
             
-            <div class="hourly-results">
+            <div class="hourly-results" aria-label="Gráfico de linha mostrando os votos por hora">
                 <h2>Votos por Hora</h2>
-                <canvas id="hourlyChart"></canvas>
+                <div class="chart-container" style="position: relative; height:300px; margin-top: 20px;">
+                    <canvas id="hourlyChart"></canvas>
+                </div>
+            </div>
+            
+            <div class="votation-info">
+                <h2>Sobre a Votação</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Como funciona</h3>
+                        <p>O participante com <strong>maior percentual de votos</strong> será eliminado do programa. Vote para decidir quem deve sair!</p>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3>Horário de Encerramento</h3>
+                        <p>A votação encerra hoje às <strong>23:00</strong>, durante o programa ao vivo.</p>
+                        <div class="countdown" id="countdown">00:00:00</div>
+                    </div>
+                </div>
             </div>
         </main>
         
