@@ -48,6 +48,8 @@ func main() {
 	e.Use(middleware.Recover())
 	e.Use(middleware.RequestID())
 
+	e.Use(middleware.CORS())
+
 	metrics.Init(e)
 	e.Use(metrics.HTTPMetricsMiddleware)
 
