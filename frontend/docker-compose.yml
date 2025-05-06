@@ -1,0 +1,14 @@
+services:
+  front:
+    build:
+      dockerfile: ./Dockerfile
+      target: build
+    container_name: voting-system.front
+    env_file:
+      - ./.env
+    ports:
+      - 3001:3001
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run start

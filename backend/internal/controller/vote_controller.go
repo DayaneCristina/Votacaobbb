@@ -1,11 +1,9 @@
 package controller
 
 import (
-	"log"
 	"net/http"
 	"strconv"
 	"time"
-
 	"dayanesantos/voting-system/internal/metrics"
 	"dayanesantos/voting-system/internal/service"
 
@@ -33,16 +31,15 @@ type voteRequest struct {
 func (c *VoteController) RegisterVote(ctx echo.Context) error {
 	var req voteRequest
 	optionStr := strconv.Itoa(req.OptionID)
-	log.Print(optionStr)
 	metrics.VotesCounter.WithLabelValues(optionStr).Inc()
 
 	if err := ctx.Bind(&req); err != nil {
-		return echo.NewHTTPError(http.StatusBadRequest, map[string]interface{}{
-			"error":   "ivalid_request",
-			"message": "Invalid request payload",
-			"details": err.Error(),
-		})
-	}
+        return echo.NewHTTPError(http.StatusBadRequest, map[string]interface{}{
+            "error":   "invalid_request",
+            "message": "Invalid request payload",
+            "details": err.Error(),
+        })
+    }
 
 	if err := c.Validator.Struct(req); err != nil {
 		return c.handleValidationError(ctx, err)
